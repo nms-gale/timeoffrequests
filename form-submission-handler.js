@@ -26,7 +26,7 @@
       var element = elements[name];
       
       // singular form elements just have one value
-      formData[name] = element.value;
+      //formData[name] = element.value;
 
       // when our element has multiple items, get their values
       if (element.length) {
@@ -38,6 +38,8 @@
           }
         }
         formData[name] = data.join(', ');
+      }else{
+        formData[name] = element.value;
       }
     });
 
