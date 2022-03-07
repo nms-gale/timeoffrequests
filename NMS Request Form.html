@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <p style="text-align:center;">
+    <img src="https://www.northmountainsupply.com/var/images/logo/344.160/images/simplecms/logo_logo_logo_logo_nms_logo_huge_thin_lines_160h3.png">
+  </p>
+  <h1 style="text-align:center">Time Off/Call Off Request Form</h1>
+  <form name="timeOffCallOffForm" id="timeOffCallOffForm" action="https://script.google.com/macros/s/AKfycbw3BJ5C_-GchocGEpquQUsuFKlHx6hD8hwfho38_y6ABkOvCO1ncYx8C90dhMZFD9hCrA/exec" method="POST" class="gform">
+        <!-- Customise the Thankyou Message People See when they submit the form: -->
+        <div class="thankyou_message" style="display:none;">
+          <h2 style="text-align:center;">Thanks for submitting your request!
+            You will receive an email letting you know if your request is approved or denied.</h2>
+        </div>
+    <div class="form-elements">
+      <div class="form-group" style="text-align:center">
+        <h3>Employee Details</h3>
+        <p>Please enter your first and last name.</p>
+        <input required type="text" class="form-control" id="name" name="Name" placeholder="Enter Full Name" style='width:25%;text-align:center;'>
+      </div>
+      <div class="form-group" style="text-align:center">
+        <script>
+          var subjectObject = {
+            "Production": {
+              "Main Production Team Lead": [],
+              "Main Production Team Member": [],
+              "Light Production Team Lead": [],
+              "Light Production Team Member": [],
+              "Ingredient Production Team Lead": [],
+              "Ingredient Production Team Member": [],
+              "Production Support Worker": [],
+              "Shipping Clerk": [],
+              "Warehouse Picker": [],
+              "Receiving Coordinator": [],
+              "Product Fulfillment Coordinator": [],
+              "Production Floor Manager": []
+            },
+            "Customer Service": {
+              "Customer Service Representative": []
+            },
+            "Maintenance": {
+              "Maintenance Technician": []
+            },
+            "Thermalblade": {
+              "Thermalblade Team Lead": [],
+              "Thermalblade Team Member": [],
+            },
+            "Administration": {
+              "Executive Office Manager": []
+            }
+          }
+          window.onload = function() {
+            var subjectSel = document.getElementById("subject");
+            var topicSel = document.getElementById("topic");
+            var chapterSel = document.getElementById("chapter");
+            chapter.style.display = "none";
+            for (var x in subjectObject) {
+              subjectSel.options[subjectSel.options.length] = new Option(x, x);
+            }
+            subjectSel.onchange = function() {
+              //empty Chapters- and Topics- dropdowns
+              chapterSel.length = 1;
+              topicSel.length = 1;
+              //display correct values
+              for (var y in subjectObject[this.value]) {
+                topicSel.options[topicSel.options.length] = new Option(y, y);
+              }
+            }
+            topicSel.onchange = function() {
+              //empty Chapters dropdown
+              chapterSel.length = 1;
+              //display correct values
+              var z = subjectObject[subjectSel.value][this.value];
+              for (var i = 0; i < z.length; i++) {
+                chapterSel.options[chapterSel.options.length] = new Option(z[i], z[i]);
+              }
+            }
+          }
+        </script>
+        <p style='text-align:center;'>Please select your department and job title. If you do not see your job title, please select a different department.</p> Department: <select class="form-control w-100" name="Department" id="subject" style='width:25%;text-align:center;' required>
+          <option value="" selected="selected">Select department</option>
+        </select> &nbsp;&nbsp;&nbsp;&nbsp; Job Title: <select class="form-control w-100" name="Title" id="topic" style='width:25%;text-align:center;' required>
+          <option value="" selected="selected">Please select department first</option>
+        </select>
+        <br>
+        <br>
+        <select name="honeypot" id="chapter">
+          <option value="" selected="selected">Please select topic first</option>
+        </select>
+      </div>
+      <div class="form-group" id="otherDetails" style="text-align:center">
+        <h3>Request Details</h3> Is this request a call off or a time off request?
+        <br><br>
+        <select class="form-control" id="timeOff" name="RequestType" onchange='timeOffOrCallOff(this.value);' style='text-align:center;width:25%;' required>
+          <option value="" disabled selected>Select</option>
+          <option>Time off</option>
+          <option>Call off</option>
+        </select>
+        <br>
+        <br>
+        <script>
+          function isOther(val) {
+            var element = document.getElementById('leaveOther');
+            var elementLabel = document.getElementById('leaveOtherLabel');
+            if (val == 'Other:') {
+              element.style.display = 'inline-block';
+              elementLabel.style.display = 'inline-block';
+              element.setAttribute('required','');
+            }else{
+              element.style.display = 'none';
+              elementLabel.style.display = 'none';
+              element.removeAttribute('required','');
+            }
+          }
+        </script>
+      </div>
+	  
+	<script>
+    function timeOffOrCallOff(val) {
+      var timeOffGroupElement = document.getElementById('timeOffGroup');
+      var callOffGroupElement = document.getElementById('callOffGroup');
+      var callOffLeave = document.getElementById('leave2');
+      var callOffFull = document.getElementById('full2');
+      var callOffStart = document.getElementById('start2');
+      var callOffEnd = document.getElementById('end2');
+      var callOffComments = document.getElementById('comments2');
+      var timeOffLeave = document.getElementById('leave');
+      var timeOffFull = document.getElementById('full');
+      var timeOffStart = document.getElementById('start');
+      var timeOffEnd = document.getElementById('end');
+      var timeOffComments = document.getElementById('comments');
+      if (val == "Call off") {
+        callOffGroupElement.style.display = 'block';
+        timeOffGroupElement.style.display = 'none';
+        callOffLeave.setAttribute('required','');
+        callOffFull.setAttribute('required','');
+        callOffStart.setAttribute('required','');
+        callOffEnd.setAttribute('required','');
+        callOffComments.setAttribute('required','');
+        timeOffLeave.removeAttribute('required','');
+        timeOffFull.removeAttribute('required','');
+        timeOffStart.removeAttribute('required','');
+        timeOffEnd.removeAttribute('required','');
+        timeOffComments.removeAttribute('required','');
+      } else if (val == "Time off") {
+        timeOffGroupElement.style.display = 'block';
+        callOffGroupElement.style.display = 'none';
+        callOffLeave.removeAttribute('required','');
+        callOffFull.removeAttribute('required','');
+        callOffStart.removeAttribute('required','');
+        callOffEnd.removeAttribute('required','');
+        callOffComments.removeAttribute('required','');
+        timeOffLeave.setAttribute('required','');
+        timeOffFull.setAttribute('required','');
+        timeOffStart.setAttribute('required','');
+        timeOffEnd.setAttribute('required','');
+        timeOffComments.setAttribute('required','');
+      } else {
+        callOffGroupElement.style.display = 'none';
+        callOffLeave.removeAttribute('required','');
+        callOffFull.removeAttribute('required','');
+        callOffStart.removeAttribute('required','');
+        callOffEnd.removeAttribute('required','');
+        callOffComments.removeAttribute('required','');
+        timeOffGroupElement.style.display = 'none';
+        timeOffLeave.removeAttribute('required','');
+        timeOffFull.removeAttribute('required','');
+        timeOffStart.removeAttribute('required','');
+        timeOffEnd.removeAttribute('required','');
+        timeOffComments.removeAttribute('required','');
+      }
+    }
+	</script>
+	  
+      <div class="form-group" id="timeOffGroup" style='display:none;text-align:center;'> 
+          <br>
+          What type of leave are you requesting?
+          <br><br>
+          <select class="form-control" name="LeaveType" id="leave" onchange='isOther(this.value);' style='width:25%;text-align:center;'>
+          <option value="" selected="selected">Select leave type</option>
+          <option>Vacation</option>
+          <option>Personal</option>
+          <option>Funeral/Bereavement</option>
+          <option>Jury Duty</option>
+          <option>Family</option>
+          <option>Medical</option>
+          <option>Other:</option>
+        </select>
+        <br>
+        <br>
+        <div id="leaveOtherLabel" style='display:none;'>Please explain:</div> <input class="form-control" type="text" name="LeaveType" id="leaveOther" style='display:none;' />
+        <br>
+        <br> Are you requesting a full or partial day off?
+        <br><br>
+        <select type="text" id="full" name="Full/Partial" style='width:25%;text-align:center;'>
+          <option value="" selected="selected">Select</option>
+          <option>Full day(s)</option>
+          <option>Partial day</option>
+        </select>
+        <br>
+        <br>
+        <br> Use bonus time (if available): <input type="checkbox" id="bonus" name="Bonus" value="true">
+        <br>
+        <br>
+        <p style='margin-right:12.5%;margin-left:12.5%;'>Enter the date and time that your request starts and ends on. If the request is for an entire day, set the start time to the beginning of your shift and the end time to the end of your shift.</p> Start of request: <input class="form-control w-100" type="datetime-local" id="start" name="Start">
+        &nbsp;&nbsp;&nbsp;&nbsp; End of request: <input class="form-control w-100" type="datetime-local" id="end" name="End">
+        <br>
+        <br>
+        <br> Please enter an explanation of the reason for this request and any comments you may have: <br>
+        <input class="form-control" id="comments" name="Comments" type="text" style='width:75%;height:200px;'>
+      </div>
+      <script>
+        function isOther2(val) {
+          var element = document.getElementById('leaveOther2');
+          var elementLabel = document.getElementById('leaveOther2Label');
+          if (val == 'Other:') {
+              element.style.display = 'inline-block';
+              elementLabel.style.display = 'inline-block';
+              element.setAttribute('required','');
+          }else{
+              element.style.display = 'none';
+              elementLabel.style.display = 'none';
+              element.removeAttribute('required','');
+          }
+        }
+      </script>
+      <div class="form-group" id="callOffGroup" style='display:none;text-align:center'> 
+          <br>
+          What type of leave are you requesting? 
+          <br>
+          <br>
+          <select class="form-control w-100" name="LeaveType" id="leave2" onchange='isOther2(this.value);' style='width:25%;text-align:center;'>
+          <option value="" selected="selected">Select call off type</option>
+          <option>Sick</option>
+          <option>Family emergency</option>
+          <option>Medical emergency</option>
+          <option>Weather</option>
+          <option>Funeral/Bereavement</option>
+          <option>Other:</option>
+        </select> 
+        <br>
+        <br>
+        <div id="leaveOther2Label" style='display:none;'>Please explain:</div> <input class="form-control" type="text" name="LeaveType" id="leaveOther2" style='display:none;text-align:center;' />
+        <br>
+        <br> Are you requesting a full or partial day off? 
+        <br>
+        <br>
+        <select class="form-control" type="text" name="Full/Partial" id="full2" style='width:25%;text-align:center;'>
+          <option value="" selected="selected">Select</option>
+          <option>Full day(s)</option>
+          <option>Partial day</option>
+        </select>
+        <br>
+        <br>
+        <p style='margin-right:12.5%;margin-left:12.5%;'>Enter the date and time that your request starts and ends on. If the request is for an entire day, set the start time to the beginning of your shift and the end time to the end of your shift.</p> 
+        Start of request: <input class="form-control w-100" type="datetime-local" id="start2" name="Start">
+        &nbsp;&nbsp;&nbsp;&nbsp; End of request: <input class="form-control w-100" type="datetime-local" id="end2" name="End">
+        <br>
+        <br>
+        <br> Please enter an explanation of the reason for this request and any comments you may have: <br>
+        <input class="form-control" id="comments2" name="Comments" type="text" style='width:75%;height:200px;'>
+      </div>
+      <br>
+      <br>
+      <div style="text-align:center;">
+          <button class="button-success pure-button button-xlarge" id="submitButton" style='width:25%;height:50px;'>Submit Request</button>
+      </div>
+    </div>
+  </form>
+
+  <script data-cfasync="false" type="text/javascript" src="https://cdn.jsdelivr.net/gh/nms-gale/timeoffrequests@main/form-submission-handler.js"></script>
+  <script>
+    var formElements = form.querySelector(".form-elements")
+    if (formElements) {
+        formElements.style.display = "none"; // hide form
+    }
+    var thankYouMessage = form.querySelector(".thankyou_message");
+    if (thankYouMessage) {
+        thankYouMessage.style.display = "block";
+    }
+  </script>  
+
+</html>
