@@ -37,7 +37,7 @@
             data.push(item.value);
           }
         }
-        formData[name] = data.join(', ');
+        formData[name] = data.join('  ');
       }else{
         formData[name] = element.value;
       }
