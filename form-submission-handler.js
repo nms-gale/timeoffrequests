@@ -33,7 +33,7 @@
         var data = [];
         for (var i = 0; i < element.length; i++) {
           var item = element.item(i);
-          if (item.checked || item.selected) {
+          if (item.checked || item.selected || 1) {
             data.push(item.value);
           }
         }
