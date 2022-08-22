@@ -1,4 +1,4 @@
-/* =========================================================
+    /* =========================================================
  * foundation-datepicker.js
  * Copyright 2015 Peter Beno, najlepsiwebdesigner@gmail.com, @benopeter
  * project website http://foundation-datepicker.peterbeno.com
@@ -1368,7 +1368,7 @@
             }
             var val = {
                 H: date.getUTCHours(),
-                h: date.getUTCHours() % 12,
+                h: (date.getUTCHours() == 0 || date.getUTCHours() == 12) ? 12 : date.getUTCHours() % 12,
                 i: date.getUTCMinutes(),
                 s: date.getUTCSeconds(),
                 d: date.getUTCDate(),
